@@ -34,7 +34,7 @@ export async function POST(request: NextRequest){
         }
 
         //create token
-        const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET!,{expiresIn: "1d"})
+        const token = await jwt.sign(tokenData, process.env.JWT_SECRET_KEY!,{expiresIn: "1d"})
 
         const response = NextResponse.json({
             message: "Login Successful",
@@ -47,6 +47,11 @@ export async function POST(request: NextRequest){
         return response;
 
     } catch (error: any) {
-        return NextResponse.json({error: error.message},{status: 500})
+        console.error("Login Error: ",error);
+        
+        return NextResponse.json(
+            {error: error.message},
+            {status: 500}
+        )
     }
 }
